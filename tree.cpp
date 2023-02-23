@@ -84,7 +84,9 @@ private:
         Node *node = new Node;
         node->feature_index = best_feature_index;
         node->split_value = best_split_value;
-        node->left_child = build_tree(X, y, X_left.clear(); X_right.clear(); y_left.clear(); y_right.clear();
+        vector<vector<double>> X_left, X_right;
+        vector<double> y_left, y_right;
+        // X_left.clear(); X_right.clear(); y_left.clear(); y_right.clear();
         for (int k = 0; k < n_samples; k++) {
             if (X[k][best_feature_index] <= best_split_value) {
                 X_left.push_back(X[k]);
@@ -153,4 +155,44 @@ int main() {
 
     // Generate the combined prediction for new samples
     // ...
+
+
+
+    // Initialize X and y with some numbers
+    vector<vector<double>> X = {{1.0, 2.0, 3.0},
+                                {2.0, 3.0, 4.0},
+                                {3.0, 4.0, 5.0},
+                                {4.0, 5.0, 6.0},
+                                {5.0, 6.0, 7.0},
+                                {6.0, 7.0, 8.0},
+                                {7.0, 8.0, 9.0},
+                                {8.0, 9.0, 10.0},
+                                {9.0, 10.0, 11.0},
+                                {10.0, 11.0, 12.0}};
+    vector<double> y = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0};
+    
+    // Generate the new feature matrix
+    vector<vector<double>> X_combined;
+    int n_samples = X.size();
+    int n_features = X[0].size();
+    for (int i = 0; i < n_samples; i++) {
+        vector<double> row(n_features + n_features);
+        for (int j = 0; j < n_features; j++) {
+            row[j] = X[i][j];
+            row[n_features + j] = X[i][j];
+        }
+        X_combined.push_back(row);
+    }
+    
+    // Print the new feature matrix and labels
+    for (int i = 0; i < n_samples; i++) {
+        for (int j = 0; j < 2 * n_features; j++) {
+            cout << X_combined[i][j] << " ";
+        }
+        cout << endl;
+    }
+    for (int i = 0; i < n_samples; i++) {
+        cout << y[i] << " ";
+    }
+    cout << endl;
 }
